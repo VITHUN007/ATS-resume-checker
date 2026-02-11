@@ -1,12 +1,17 @@
 import streamlit as st
 import google.generativeai as genai
+
 from pypdf import PdfReader
 import docx
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
-API_KEY = os.getenv("GEMINI_API_KEY")
+# Load API Key securely
+if "GEMINI_API_KEY" in st.secrets:
+    API_KEY = st.secrets["GEMINI_API_KEY"]
+else:
+    load_dotenv()
+    API_KEY = os.getenv("GEMINI_API_KEY")
 
 genai.configure(api_key=API_KEY)
 model = genai.GenerativeModel('gemini-2.5-flash')
